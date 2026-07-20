@@ -19,51 +19,141 @@ const img={
 };
 
 
-const photoUrl=(tags,lock)=>`https://loremflickr.com/960/640/${encodeURIComponent(tags).replace(/%20/g,',')}?lock=${lock}`;
-const photoSets={
-  '抵達關西機場':['kansai international airport japan','kansai airport terminal japan','kansai airport exterior japan'],
-  'HARUKA 前往京都':['haruka train japan','jr west haruka train','kyoto station train'],
-  '飯店寄放行李':['kyoto shijo karasuma street','kyoto hotel exterior','shijo karasuma kyoto'],
-  '錦市場':['nishiki market kyoto','nishiki market food kyoto','nishiki market arcade kyoto','nishiki market shops kyoto'],
-  '寺町・新京極':['shinkyogoku shopping street kyoto','teramachi shopping arcade kyoto','shinkyogoku kyoto shops'],
-  '3COINS +plus 河原町 OPA 店':['kawaramachi opa kyoto','kawaramachi shopping kyoto','kyoto shopping mall'],
-  '京都高島屋 S.C.／Nintendo KYOTO':['nintendo kyoto store','kyoto takashimaya','nintendo store kyoto'],
-  '河原町晚餐':['kyoto kawaramachi restaurant','kyoto ramen','kyoto dinner'],
-  '京都 → 宇治':['uji station kyoto','jr nara line train','uji japan station'],
-  '宇治表參道':['byodoin omotesando uji','uji matcha street','uji tea shops'],
-  '平等院・宇治川':['byodoin temple uji','phoenix hall byodoin','uji river japan','byodoin pond'],
-  '宇治午餐':['uji matcha soba','uji restaurant japan','uji matcha dessert'],
-  '宇治 → 奈良':['nara station japan','jr nara line','nara train station'],
-  '奈良公園':['nara park deer','nara deer japan','nara park scenery','nara deer crackers'],
-  '東大寺':['todai ji nara','todaiji great buddha hall','nara great buddha','todaiji nandaimon'],
-  '返回京都':['kyoto station night','kyoto station interior','kyoto tower night'],
-  '前往清水寺':['higashiyama kyoto street','kiyomizudera approach','kyoto taxi street'],
-  '清水寺':['kiyomizudera temple kyoto','kiyomizu dera stage','kiyomizudera pagoda','otowa waterfall kiyomizudera','kiyomizudera summer'],
-  '三年坂・二年坂・八坂塔':['sannenzaka kyoto','ninenzaka kyoto','yasaka pagoda kyoto','higashiyama traditional street'],
-  '祇園／東山午餐':['gion kyoto street','higashiyama kyoto restaurant','kyoto tofu cuisine'],
-  '午後二選一':['kyoto aquarium','kyoto railway museum','kyoto aquarium penguin','kyoto railway museum train'],
-  'JR 京都伊勢丹':['kyoto station isetan','jr kyoto isetan','kyoto station shopping'],
-  '京都 Porta 地下街':['kyoto porta','kyoto station underground mall','kyoto porta shopping'],
-  '京都飯店退房':['shijo karasuma kyoto','kyoto hotel luggage','kyoto street morning'],
-  'USJ 入園':['universal studios japan globe','universal studios japan entrance','universal studios japan street','usj osaka'],
-  '上午自由玩':['universal studios japan rides','universal wonderland japan','jurassic park ride usj','minion park usj'],
-  '提早午餐':['universal studios japan restaurant','usj theme park food','universal citywalk osaka food'],
-  '哈利波特／親子園區':['wizarding world harry potter japan','hogwarts castle usj','hogsmeade usj','harry potter forbidden journey japan','universal wonderland usj'],
-  'JAWS 快速通關':['jaws ride universal studios japan','jaws usj boat','amity village usj','jaws attraction japan'],
-  '前往任天堂世界入口':['super nintendo world japan entrance','super nintendo world usj','peach castle usj'],
-  '瑪利歐賽車 Express':['mario kart koopas challenge usj','mario kart ride japan','bowsers castle super nintendo world','mario kart universal studios japan'],
-  '咚奇剛瘋狂礦車 Express':['donkey kong mine cart madness usj','donkey kong country universal studios japan','mine cart madness japan','golden temple donkey kong usj'],
-  '任天堂世界夜景':['super nintendo world japan night','super nintendo world usj night','peach castle night usj','super mario land japan night'],
-  '前往機場飯店':['rinku town osaka night','kansai airport hotel','rinku gate tower'],
-  '早餐與最後整理':['japanese hotel breakfast','kansai airport hotel room','travel luggage japan'],
-  '退房前往 KIX':['kansai airport train','kansai international airport exterior','rinku town station'],
-  '報到・托運・安檢':['kansai airport terminal','airport check in japan','kansai airport departure'],
-  'BR177 返回台灣':['eva air airplane','kansai airport runway','airplane japan sky']
+const commons=name=>`https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(name)}?width=1200`;
+const fixedPhotos={
+  daiwa:[
+    'https://www.daiwaroynet.jp/datas/cache/images/2026/05/01/1760x790_ea1e9d427fb5664c32c517a73e421e58_9677b500b2731ace7593fc96f9a0fb41735dc466.jpg',
+    'https://www.daiwaroynet.jp/datas/cache/images/2026/03/29/1000x720_ea1e9d427fb5664c32c517a73e421e58_4a29c6153d2e78c7776c00097497ad80018fc973.jpg',
+    'https://www.daiwaroynet.jp/datas/cache/images/2026/03/29/1000x720_ea1e9d427fb5664c32c517a73e421e58_175ea2b0b6d8db8e02731a83871cc1be9dbd1f3e.jpg',
+    'https://www.daiwaroynet.jp/datas/cache/images/2026/04/18/1000x720_ea1e9d427fb5664c32c517a73e421e58_48b551550f687b245998f552498a9ace768c43ee.jpg'
+  ],
+  odysis:[
+    'https://www.odysissuitesosaka.com/odysiscms/wp-content/themes/odysis/img/top/visual01.jpg',
+    'https://www.odysissuitesosaka.com/odysiscms/wp-content/themes/odysis/img/top/space-bg.jpg',
+    'https://www.odysissuitesosaka.com/odysiscms/wp-content/themes/odysis/img/top/visual02.jpg'
+  ],
+  kix:[
+    commons('Kansai International Airport Terminal 1.jpg'),
+    commons('Kansai International Airport Terminal.jpg'),
+    commons('Kansai International Airport 01.jpg')
+  ],
+  kyotoStation:[
+    commons('Kyoto Station November 2016.jpg'),
+    commons('Kyoto Station Building 2018.jpg'),
+    commons('Kyoto Station interior.jpg')
+  ],
+  nishiki:[
+    commons('Nishiki Market, Kyoto - Flickr - Sergiy Galyonkin.jpg'),
+    commons('Nishiki market - Kyoto - 2022 Dec 30 various 11 30 08 508000.jpeg'),
+    commons('Nishiki Ichiba by jason.kaechler in Kyoto.jpg'),
+    commons('Fish shop by ellievanhoutte in Nishiki-ichiba, Kyoto.jpg')
+  ],
+  byodoin:[
+    commons('Byodo-in in Uji.jpg'),
+    commons('Byodo-in Uji03bs2640.jpg'),
+    commons('Byodo-in Uji01pbs2640.jpg'),
+    commons('Byodoin Phoenix Hall Uji 2009.jpg')
+  ],
+  nara:[
+    commons('Deer in Nara Park, Nara, Japan.jpg'),
+    commons('Nara Park deer.jpg'),
+    commons('Sika deer in Nara Park.jpg'),
+    commons('Nara Park, Nara, Japan.jpg')
+  ],
+  todaiji:[
+    commons('Tōdai-ji Kon-dō.jpg'),
+    commons('Todaiji Temple Nara Japan.jpg'),
+    commons('Great Buddha Hall, Todai-ji, Nara.jpg'),
+    commons('Nandaimon of Todaiji.jpg')
+  ],
+  kiyomizu:[
+    commons('Kiyomizu-dera, Kyoto, Japan (48923900762).jpg'),
+    commons('Japan Kyoto KiyoMizuDera temple from afar DSC00653.jpg'),
+    commons('20131014 70 Kyoto - Higashiyama - Kiyomizudera Temple (10512818343).jpg'),
+    commons('View of Kyoto skyline from Kiyomizu-dera.jpg')
+  ],
+  higashiyama:[
+    commons('Sannenzaka Kyoto.jpg'),
+    commons('Ninenzaka, Kyoto.jpg'),
+    commons('Yasaka Pagoda and Sannen Zaka Street.jpg'),
+    commons('Hokanji Temple Kyoto.jpg')
+  ],
+  aquarium:[
+    commons('Kyoto Aquarium.jpg'),
+    commons('Kyoto Aquarium penguins.jpg'),
+    commons('Kyoto Railway Museum 2016.jpg'),
+    commons('Kyoto Railway Museum main hall.jpg')
+  ],
+  usj:[
+    commons('Universal Studios Japan 2015.jpg'),
+    commons('Universal Studios Japan globe.jpg'),
+    commons('Universal Studios Japan entrance.jpg')
+  ],
+  jaws:[
+    'https://www.usj.co.jp/contentdata/usj/en/us/files/images/gds-images/usj-gds-jaws-b.jpg',
+    'https://www.usj.co.jp/contentdata/usj/en/us/files/images/gds-images/usj-gds-jaws-photo-cf1-b.jpg',
+    'https://www.usj.co.jp/contentdata/usj/en/us/files/images/gds-images/usj-gds-jaws-lifted-jaws-gallery-b.jpg',
+    'https://www.usj.co.jp/contentdata/usj/en/us/files/images/gds-images/usj-gds-jaws-swim-jaws-cf1-b.jpg'
+  ],
+  nintendo:[
+    commons('Super Nintendo World Universal Studios Japan.jpg'),
+    commons('Super Nintendo World at Universal Studios Japan.jpg'),
+    commons('Mario Kart Koopa’s Challenge.jpg'),
+    'https://www.usj.co.jp/contentdata/usj/en/us/files/images/usj-super-nintendo-world-5th-hero-m.jpg?imwidth=1200'
+  ],
+  harry:[
+    commons('The Wizarding World of Harry Potter Universal Studios Japan.jpg'),
+    commons('Hogwarts Castle Universal Studios Japan.jpg'),
+    commons('Hogsmeade Universal Studios Japan.jpg')
+  ],
+  donkey:[
+    commons('Donkey Kong Country Universal Studios Japan.jpg'),
+    commons('Mine Cart Madness Universal Studios Japan.jpg'),
+    commons('Golden Temple Donkey Kong Country USJ.jpg'),
+    'https://www.usj.co.jp/contentdata/usj/en/us/files/images/usj-super-nintendo-world-5th-hero-m.jpg?imwidth=1200'
+  ]
 };
-function stopPhotos(title){
-  const tags=photoSets[title]||[`${title} japan`,`${title} travel`,`${title} landmark`];
-  return tags.slice(0,5).map((t,i)=>photoUrl(t,1000+[...title].reduce((a,c)=>a+c.charCodeAt(0),0)+i));
-}
+const photoSets={
+  '抵達關西機場':fixedPhotos.kix,
+  'HARUKA 前往京都':fixedPhotos.kyotoStation,
+  '飯店寄放行李':fixedPhotos.daiwa,
+  '錦市場':fixedPhotos.nishiki,
+  '寺町・新京極':fixedPhotos.higashiyama,
+  '3COINS +plus 河原町 OPA 店':fixedPhotos.kyotoStation,
+  '京都高島屋 S.C.／Nintendo KYOTO':fixedPhotos.kyotoStation,
+  '河原町晚餐':fixedPhotos.nishiki,
+  '京都 → 宇治':fixedPhotos.byodoin,
+  '宇治表參道':fixedPhotos.byodoin,
+  '平等院・宇治川':fixedPhotos.byodoin,
+  '宇治午餐':fixedPhotos.byodoin,
+  '宇治 → 奈良':fixedPhotos.nara,
+  '奈良公園':fixedPhotos.nara,
+  '東大寺':fixedPhotos.todaiji,
+  '返回京都':fixedPhotos.kyotoStation,
+  '前往清水寺':fixedPhotos.higashiyama,
+  '清水寺':fixedPhotos.kiyomizu,
+  '三年坂・二年坂・八坂塔':fixedPhotos.higashiyama,
+  '祇園／東山午餐':fixedPhotos.higashiyama,
+  '午後二選一':fixedPhotos.aquarium,
+  'JR 京都伊勢丹':fixedPhotos.kyotoStation,
+  '京都 Porta 地下街':fixedPhotos.kyotoStation,
+  '京都飯店退房':fixedPhotos.daiwa,
+  'USJ 入園':fixedPhotos.usj,
+  '上午自由玩':fixedPhotos.usj,
+  '提早午餐':fixedPhotos.usj,
+  '哈利波特／親子園區':fixedPhotos.harry,
+  'JAWS 快速通關':fixedPhotos.jaws,
+  '前往任天堂世界入口':fixedPhotos.nintendo,
+  '瑪利歐賽車 Express':fixedPhotos.nintendo,
+  '咚奇剛瘋狂礦車 Express':fixedPhotos.donkey,
+  '任天堂世界夜景':fixedPhotos.nintendo,
+  '前往機場飯店':fixedPhotos.odysis,
+  '早餐與最後整理':fixedPhotos.odysis,
+  '退房前往 KIX':fixedPhotos.kix,
+  '報到・托運・安檢':fixedPhotos.kix,
+  'BR177 返回台灣':fixedPhotos.kix
+};
+function stopPhotos(title){return (photoSets[title]||fixedPhotos.kyotoStation).slice(0,5)}
 function galleryHtml(title){
   const photos=stopPhotos(title);
   return `<div class="place-gallery" data-gallery-title="${title}"><button type="button" class="gallery-main" data-gallery-open="0" aria-label="放大查看 ${title} 照片"><img src="${photos[0]}" alt="${title} 實景照片 1" loading="lazy"><span>1 / ${photos.length}</span></button><div class="gallery-thumbs">${photos.map((p,i)=>`<button type="button" data-gallery-thumb="${i}" class="${i===0?'active':''}" aria-label="查看第 ${i+1} 張照片"><img src="${p}" alt="${title} 實景照片 ${i+1}" loading="lazy"></button>`).join('')}</div><script type="application/json" class="gallery-data">${JSON.stringify(photos)}</script></div>`;
