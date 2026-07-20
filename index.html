@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#8f3f3f">
+  <meta name="theme-color" content="#315f52">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="京都家庭旅行">
@@ -18,7 +18,7 @@
 <div class="app-shell">
   <header class="hero" id="home">
     <div class="hero-orb orb-a"></div><div class="hero-orb orb-b"></div>
-    <div class="topbar"><div class="brand-dot">旅</div><div><small>LIAO FAMILY</small><strong>KYOTO 2026 · V3</strong></div><button id="themeBtn" class="icon-btn" aria-label="切換深色模式">☾</button></div>
+    <div class="topbar"><div class="brand-dot">旅</div><div><small>LIAO FAMILY</small><strong>KYOTO 2026</strong></div><button id="themeBtn" class="icon-btn" aria-label="切換深色模式">☾</button></div>
     <p class="eyebrow">KYOTO · UJI · NARA · OSAKA</p>
     <h1>我們家的<br>關西小旅行</h1>
     <p class="hero-sub">2026.07.25 — 07.29｜親子舒適版</p>
@@ -60,7 +60,7 @@
     </section>
 
     <section class="view" id="view-food">
-      <div class="page-hero food-hero"><span>FOOD POOL</span><h2>今天想吃什麼？</h2><p>推薦餐廳與自己新增的口袋名單集中管理，現場再依排隊與孩子狀況決定。</p></div>
+      <div class="page-hero food-hero"><span>FOOD POOL</span><h2>今天想吃什麼？</h2><p>先收藏候選，現場依距離、排隊與孩子狀況決定。</p></div>
       <div class="filter-row" id="foodFilters"></div>
       <div id="foodList" class="card-list"></div>
     </section>
@@ -123,6 +123,14 @@
     <button class="nav-item" data-go="food"><span>♨</span><small>美食</small></button>
     <button class="nav-item" data-go="more"><span>•••</span><small>更多</small></button>
   </nav>
+</div>
+
+<div class="photo-modal" id="photoModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="景點照片瀏覽器">
+  <div class="photo-modal-inner">
+    <button type="button" class="photo-modal-close" id="photoModalClose" aria-label="關閉照片">×</button>
+    <img id="photoModalImage" alt="景點實景照片">
+    <div class="photo-modal-bar"><span class="photo-modal-title" id="photoModalTitle"></span><span id="photoModalCount"></span><div class="photo-modal-controls"><button type="button" id="photoPrev" aria-label="上一張">‹</button><button type="button" id="photoNext" aria-label="下一張">›</button></div></div>
+  </div>
 </div>
 <div class="toast" id="toast">已完成</div>
 <script src="app.js"></script>

@@ -29,3 +29,38 @@ body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;ba
 .check-row.editable{display:flex;align-items:center;justify-content:space-between}.check-row.editable label{display:flex;align-items:center;gap:10px;flex:1}.delete-mini{border:0;background:#f1dedb;color:#94463f;width:32px;height:32px;border-radius:50%;font-size:1.25rem;line-height:1;cursor:pointer;flex:0 0 auto}
 body.dark{background:#1f1c19;color:#eee}body.dark:before{opacity:.05}body.dark .page-hero,body.dark .stay-card,body.dark .reminder-card,body.dark .restaurant-add,body.dark .rating-line,body.dark .daily-summary>div{background:#302a25!important;color:#eee}body.dark .restaurant-form input,body.dark .restaurant-form select,body.dark .inline-add input,body.dark .inline-add select{background:#28231f;color:#eee;border-color:#4b4037}
 @media(min-width:700px){.daily-summary{grid-template-columns:1fr 1fr}.photo-strip img{flex-basis:48%;height:210px}.inline-add{grid-template-columns:2fr 1fr auto}.inline-add select{grid-column:auto}.inline-add .primary-btn{grid-column:auto;grid-row:auto}}
+
+/* V3.1 visual quality & accessibility */
+.page-hero{color:#3d2d27!important}
+.page-hero span{color:#765d4e!important;opacity:1!important}
+.page-hero p{color:#66564b!important;opacity:1!important}
+.page-hero h2{color:#342620!important}
+body.dark .page-hero h2,body.dark .page-hero span,body.dark .page-hero p{color:#f2ebe4!important}
+.day-header,.stay-card,.daily-summary>div,.reminder-card,.rating-line,.restaurant-add{color:#332a24}
+.day-header h2,.day-header h3,.stay-card h3,.reminder-card b,.restaurant-add summary{color:#2d241f}
+.metric{color:#2d241f}
+.metric small{color:#6d6259}
+body.dark .day-header h2,body.dark .day-header h3,body.dark .stay-card h3,body.dark .reminder-card b,body.dark .restaurant-add summary,body.dark .metric{color:#f2eee9}
+body.dark .metric small{color:#c9beb5}
+.primary-btn,.map-btn,.filter-chip.active,.day-tab.active{color:#fff!important;text-shadow:0 1px 1px rgba(0,0,0,.16)}
+.quick-card,.more-card,.overview-card,.stop-card,.restaurant-card,.shop-card,.info-card,.task-group{color:var(--text)}
+
+.place-gallery{margin:-4px -4px 14px}
+.gallery-main{display:block;position:relative;width:100%;padding:0;border:0;border-radius:17px;overflow:hidden;background:#e7e1d9;cursor:zoom-in}
+.gallery-main img{display:block;width:100%;height:190px;object-fit:cover}
+.gallery-main span{position:absolute;right:10px;bottom:10px;padding:5px 9px;border-radius:999px;background:rgba(22,19,17,.72);color:#fff;font-size:11px;font-weight:800;backdrop-filter:blur(8px)}
+.gallery-thumbs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin-top:7px}
+.gallery-thumbs button{padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;background:#e7e1d9;aspect-ratio:1.2/1}
+.gallery-thumbs button.active{border-color:var(--kyoto-red);box-shadow:0 0 0 1px rgba(143,63,63,.16)}
+.gallery-thumbs img{display:block;width:100%;height:100%;object-fit:cover}
+.photo-modal{display:none;position:fixed;inset:0;z-index:100;background:rgba(15,13,12,.94);padding:calc(18px + env(safe-area-inset-top)) 14px calc(18px + env(safe-area-inset-bottom));align-items:center;justify-content:center}
+.photo-modal.open{display:flex}
+.photo-modal-inner{width:min(100%,900px);position:relative}
+.photo-modal img{display:block;width:100%;max-height:76vh;object-fit:contain;border-radius:16px;background:#171412}
+.photo-modal-bar{display:flex;align-items:center;justify-content:space-between;color:#fff;margin:12px 4px 0;gap:10px}
+.photo-modal-title{font-weight:800;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.photo-modal-controls{display:flex;gap:8px}
+.photo-modal button{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.12);color:#fff;border-radius:999px;width:44px;height:44px;font-size:22px}
+.photo-modal-close{position:absolute;right:10px;top:10px;z-index:2}
+.photo-source-note{font-size:11px;color:var(--muted);margin:7px 0 0}
+@media(max-width:420px){.gallery-main img{height:170px}.gallery-thumbs{gap:4px}.gallery-thumbs button{border-radius:8px}}

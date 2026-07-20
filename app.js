@@ -18,6 +18,57 @@ const img={
  airport:'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=900&q=80'
 };
 
+
+const photoUrl=(tags,lock)=>`https://loremflickr.com/960/640/${encodeURIComponent(tags).replace(/%20/g,',')}?lock=${lock}`;
+const photoSets={
+  '抵達關西機場':['kansai international airport japan','kansai airport terminal japan','kansai airport exterior japan'],
+  'HARUKA 前往京都':['haruka train japan','jr west haruka train','kyoto station train'],
+  '飯店寄放行李':['kyoto shijo karasuma street','kyoto hotel exterior','shijo karasuma kyoto'],
+  '錦市場':['nishiki market kyoto','nishiki market food kyoto','nishiki market arcade kyoto','nishiki market shops kyoto'],
+  '寺町・新京極':['shinkyogoku shopping street kyoto','teramachi shopping arcade kyoto','shinkyogoku kyoto shops'],
+  '3COINS +plus 河原町 OPA 店':['kawaramachi opa kyoto','kawaramachi shopping kyoto','kyoto shopping mall'],
+  '京都高島屋 S.C.／Nintendo KYOTO':['nintendo kyoto store','kyoto takashimaya','nintendo store kyoto'],
+  '河原町晚餐':['kyoto kawaramachi restaurant','kyoto ramen','kyoto dinner'],
+  '京都 → 宇治':['uji station kyoto','jr nara line train','uji japan station'],
+  '宇治表參道':['byodoin omotesando uji','uji matcha street','uji tea shops'],
+  '平等院・宇治川':['byodoin temple uji','phoenix hall byodoin','uji river japan','byodoin pond'],
+  '宇治午餐':['uji matcha soba','uji restaurant japan','uji matcha dessert'],
+  '宇治 → 奈良':['nara station japan','jr nara line','nara train station'],
+  '奈良公園':['nara park deer','nara deer japan','nara park scenery','nara deer crackers'],
+  '東大寺':['todai ji nara','todaiji great buddha hall','nara great buddha','todaiji nandaimon'],
+  '返回京都':['kyoto station night','kyoto station interior','kyoto tower night'],
+  '前往清水寺':['higashiyama kyoto street','kiyomizudera approach','kyoto taxi street'],
+  '清水寺':['kiyomizudera temple kyoto','kiyomizu dera stage','kiyomizudera pagoda','otowa waterfall kiyomizudera','kiyomizudera summer'],
+  '三年坂・二年坂・八坂塔':['sannenzaka kyoto','ninenzaka kyoto','yasaka pagoda kyoto','higashiyama traditional street'],
+  '祇園／東山午餐':['gion kyoto street','higashiyama kyoto restaurant','kyoto tofu cuisine'],
+  '午後二選一':['kyoto aquarium','kyoto railway museum','kyoto aquarium penguin','kyoto railway museum train'],
+  'JR 京都伊勢丹':['kyoto station isetan','jr kyoto isetan','kyoto station shopping'],
+  '京都 Porta 地下街':['kyoto porta','kyoto station underground mall','kyoto porta shopping'],
+  '京都飯店退房':['shijo karasuma kyoto','kyoto hotel luggage','kyoto street morning'],
+  'USJ 入園':['universal studios japan globe','universal studios japan entrance','universal studios japan street','usj osaka'],
+  '上午自由玩':['universal studios japan rides','universal wonderland japan','jurassic park ride usj','minion park usj'],
+  '提早午餐':['universal studios japan restaurant','usj theme park food','universal citywalk osaka food'],
+  '哈利波特／親子園區':['wizarding world harry potter japan','hogwarts castle usj','hogsmeade usj','harry potter forbidden journey japan','universal wonderland usj'],
+  'JAWS 快速通關':['jaws ride universal studios japan','jaws usj boat','amity village usj','jaws attraction japan'],
+  '前往任天堂世界入口':['super nintendo world japan entrance','super nintendo world usj','peach castle usj'],
+  '瑪利歐賽車 Express':['mario kart koopas challenge usj','mario kart ride japan','bowsers castle super nintendo world','mario kart universal studios japan'],
+  '咚奇剛瘋狂礦車 Express':['donkey kong mine cart madness usj','donkey kong country universal studios japan','mine cart madness japan','golden temple donkey kong usj'],
+  '任天堂世界夜景':['super nintendo world japan night','super nintendo world usj night','peach castle night usj','super mario land japan night'],
+  '前往機場飯店':['rinku town osaka night','kansai airport hotel','rinku gate tower'],
+  '早餐與最後整理':['japanese hotel breakfast','kansai airport hotel room','travel luggage japan'],
+  '退房前往 KIX':['kansai airport train','kansai international airport exterior','rinku town station'],
+  '報到・托運・安檢':['kansai airport terminal','airport check in japan','kansai airport departure'],
+  'BR177 返回台灣':['eva air airplane','kansai airport runway','airplane japan sky']
+};
+function stopPhotos(title){
+  const tags=photoSets[title]||[`${title} japan`,`${title} travel`,`${title} landmark`];
+  return tags.slice(0,5).map((t,i)=>photoUrl(t,1000+[...title].reduce((a,c)=>a+c.charCodeAt(0),0)+i));
+}
+function galleryHtml(title){
+  const photos=stopPhotos(title);
+  return `<div class="place-gallery" data-gallery-title="${title}"><button type="button" class="gallery-main" data-gallery-open="0" aria-label="放大查看 ${title} 照片"><img src="${photos[0]}" alt="${title} 實景照片 1" loading="lazy"><span>1 / ${photos.length}</span></button><div class="gallery-thumbs">${photos.map((p,i)=>`<button type="button" data-gallery-thumb="${i}" class="${i===0?'active':''}" aria-label="查看第 ${i+1} 張照片"><img src="${p}" alt="${title} 實景照片 ${i+1}" loading="lazy"></button>`).join('')}</div><script type="application/json" class="gallery-data">${JSON.stringify(photos)}</script></div>`;
+}
+
 const hotels={
  kyoto:{name:'Daiwa Roynet Hotel Kyoto Shijo Karasuma',map:'Daiwa Roynet Hotel Kyoto Shijo Karasuma'},
  airport:{name:'Odysis Suites Osaka Airport Hotel',map:'Odysis Suites Osaka Airport Hotel'}
@@ -88,8 +139,26 @@ function renderDays(){qs('#dayTabs').innerHTML=days.map((d,i)=>`<button class="d
 function renderDay(){const d=days[currentDay];let mission='';if(d.usj){const saved=store.get('missions',{});const items=[['mario','瑪利歐賽車 17:10'],['dk','咚奇剛礦車 17:40'],['jaws','JAWS（彈性）'],['hp','哈利波特園區'],['night','任天堂世界夜景']];mission=`<div class="mission-card"><div class="mission-head"><div><span class="mini-label">USJ QUEST</span><h3>今日任務</h3></div><b id="missionPct">0%</b></div><div class="progress"><span id="missionBar"></span></div><div class="mission-list">${items.map(([k,n])=>`<label><input type="checkbox" class="mission-check" data-key="${k}" ${saved[k]?'checked':''}>${n}</label>`).join('')}</div></div>`}
  const stay=d.hotel?`<div class="stay-card"><div><small>🏨 今晚住宿</small><h3>${d.hotel.name}</h3></div><a class="map-btn" target="_blank" href="${mapUrl(d.hotel.map)}">回飯店導航</a></div>`:`<div class="stay-card flight"><div><small>✈️ 今日航班</small><h3>${d.flight}</h3></div><a class="map-btn" target="_blank" href="${mapUrl('Kansai International Airport')}">機場導航</a></div>`;
  const reminders=`<div class="reminder-stack">${d.reminders.map(r=>`<article class="reminder-card"><span>${r[0]}</span><div><b>${r[1]}</b><p>${r[2]}</p></div></article>`).join('')}</div>`;
- qs('#dayContent').innerHTML=`<div class="day-header"><span class="kicker">${d.date} · ${d.day}</span><h2>${d.title}</h2><p>${d.sub}</p>${stay}<div class="daily-summary"><div><small>🚆 今日交通</small><b>${d.transport}</b></div><div><small>🎯 今日重點</small><b>${d.focus}</b></div></div><div class="day-metrics">${d.metrics.map(x=>`<div class="metric"><small>TRIP NOTE</small><b>${x}</b></div>`).join('')}</div><div class="comfort">🌿 ${d.mood}</div></div>${reminders}${mission}<div class="timeline">${d.stops.map(s=>`<div class="stop"><time>${s[0]}</time><div class="dot">${s[1]}</div><div class="stop-card"><img class="stop-photo" src="${s[5]}" alt="${s[2]}" loading="lazy"><h3>${s[2]}</h3><p>${s[3]}</p><a class="map-btn" target="_blank" href="${mapUrl(s[4])}">Google Maps</a></div></div>`).join('')}</div><div class="food-inline"><div class="food-inline-head"><div><span class="kicker">MEAL OPTIONS</span><h3>${d.foodArea}餐廳候選</h3></div><button class="text-btn" data-go="food" data-filter="${d.foodArea}">查看清單 →</button></div></div>`;
+ qs('#dayContent').innerHTML=`<div class="day-header"><span class="kicker">${d.date} · ${d.day}</span><h2>${d.title}</h2><p>${d.sub}</p>${stay}<div class="daily-summary"><div><small>🚆 今日交通</small><b>${d.transport}</b></div><div><small>🎯 今日重點</small><b>${d.focus}</b></div></div><div class="day-metrics">${d.metrics.map(x=>`<div class="metric"><small>TRIP NOTE</small><b>${x}</b></div>`).join('')}</div><div class="comfort">🌿 ${d.mood}</div></div>${reminders}${mission}<div class="timeline">${d.stops.map(s=>`<div class="stop"><time>${s[0]}</time><div class="dot">${s[1]}</div><div class="stop-card">${galleryHtml(s[2])}<h3>${s[2]}</h3><p>${s[3]}</p><a class="map-btn" target="_blank" href="${mapUrl(s[4])}">Google Maps</a></div></div>`).join('')}</div><div class="food-inline"><div class="food-inline-head"><div><span class="kicker">MEAL OPTIONS</span><h3>${d.foodArea}餐廳候選</h3></div><button class="text-btn" data-go="food" data-filter="${d.foodArea}">查看清單 →</button></div></div>`;
+ bindGalleries(qs('#dayContent'));
  qsa('[data-go]',qs('#dayContent')).forEach(bindGo);qsa('.mission-check').forEach(c=>c.onchange=()=>{const m=store.get('missions',{});m[c.dataset.key]=c.checked;store.set('missions',m);updateMissions()});updateMissions()}
+function bindGalleries(root=document){
+ qsa('.place-gallery',root).forEach(g=>{
+  const photos=JSON.parse(qs('.gallery-data',g).textContent),main=qs('.gallery-main img',g),counter=qs('.gallery-main span',g),thumbs=qsa('[data-gallery-thumb]',g);
+  const select=i=>{main.src=photos[i];main.alt=`${g.dataset.galleryTitle} 實景照片 ${i+1}`;counter.textContent=`${i+1} / ${photos.length}`;thumbs.forEach((b,n)=>b.classList.toggle('active',n===i));qs('.gallery-main',g).dataset.galleryOpen=i};
+  thumbs.forEach(b=>b.onclick=()=>select(+b.dataset.galleryThumb));
+  qs('.gallery-main',g).onclick=()=>openLightbox(g.dataset.galleryTitle,photos,+qs('.gallery-main',g).dataset.galleryOpen);
+ });
+}
+function openLightbox(title,photos,start=0){
+ const modal=qs('#photoModal'),image=qs('#photoModalImage'),count=qs('#photoModalCount'),caption=qs('#photoModalTitle');let index=start;
+ const show=()=>{image.src=photos[index];image.alt=`${title} 實景照片 ${index+1}`;count.textContent=`${index+1} / ${photos.length}`;caption.textContent=title};
+ modal.classList.add('open');modal.setAttribute('aria-hidden','false');show();
+ qs('#photoPrev').onclick=()=>{index=(index-1+photos.length)%photos.length;show()};
+ qs('#photoNext').onclick=()=>{index=(index+1)%photos.length;show()};
+}
+function closeLightbox(){const m=qs('#photoModal');m.classList.remove('open');m.setAttribute('aria-hidden','true')}
+
 function updateMissions(){const all=qsa('.mission-check');if(!all.length)return;const done=all.filter(x=>x.checked).length,p=Math.round(done/all.length*100);qs('#missionPct').textContent=p+'%';qs('#missionBar').style.width=p+'%'}
 
 let foodFilter='全部';
@@ -111,4 +180,5 @@ renderOverview();renderPrep();renderDays();renderFood();renderShopping();renderP
 qsa('[data-go]').forEach(bindGo);qsa('[data-copy]').forEach(b=>b.onclick=async()=>{await navigator.clipboard?.writeText(b.dataset.copy);toast('已複製日文')});
 qs('#budgetForm').onsubmit=e=>{e.preventDefault();const arr=store.get('budget',[]);arr.push({item:qs('#budgetItem').value.trim(),amount:+qs('#budgetAmount').value,cat:qs('#budgetCategory').value});store.set('budget',arr);e.target.reset();renderBudget();toast('已加入記帳')};
 const dark=store.get('dark',false);document.body.classList.toggle('dark',dark);qs('#themeBtn').textContent=dark?'☀':'☾';qs('#themeBtn').onclick=()=>{document.body.classList.toggle('dark');const d=document.body.classList.contains('dark');store.set('dark',d);qs('#themeBtn').textContent=d?'☀':'☾'};
+qs('#photoModalClose').onclick=closeLightbox;qs('#photoModal').onclick=e=>{if(e.target.id==='photoModal')closeLightbox()};document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox()});
 if('serviceWorker' in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));
